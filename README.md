@@ -22,73 +22,60 @@ To Implement Diffie Hellman Key Exchange Algorithm
 ```c
 #include <stdio.h>
 
+int main()
+{
+    int p, g, a, b;
+    int A = 1, B = 1, keyA = 1, keyB = 1;
+    int i;
 
-long long int mod_exp(long long int base, long long int exp, long long int mod) {
-    long long int result = 1;
-    while (exp > 0) {
-      
-        if (exp % 2 == 1)
-            result = (result * base) % mod;
+    printf("Enter prime number (p): ");
+    scanf("%d", &p);
 
-      
-        exp = exp >> 1; 
-        base = (base * base) % mod;
+    printf("Enter primitive root (g): ");
+    scanf("%d", &g);
+
+    printf("Enter private key of A: ");
+    scanf("%d", &a);
+
+    printf("Enter private key of B: ");
+    scanf("%d", &b);
+
+    // Calculate A = g^a mod p
+    for(i = 0; i < a; i++)
+    {
+        A = (A * g) % p;
     }
-    return result;
-}
 
-int main() {
-    long long int P, G, a, b, x, y, ka, kb;
-
-    printf("\n********* Diffie-Hellman Key Exchange Algorithm **********\n\n");
-
-
-    printf("Enter a prime number P: ");
-    scanf("%lld", &P); 
-    printf("The value of P: %lld\n", P);
-
-    printf("Enter a primitive root G for P: ");
-    scanf("%lld", &G); 
-    printf("The value of G: %lld\n\n", G);
-
-   
-    printf("Enter the private key for Alice (a): ");
-    scanf("%lld", &a);
-    x = mod_exp(G, a, P);
-    printf("The public key for Alice (x = G^a mod P): %lld\n", x);
-
-   
-    printf("Enter the private key for Bob (b): ");
-    scanf("%lld", &b);
-    y = mod_exp(G, b, P); 
-    printf("The public key for Bob (y = G^b mod P): %lld\n\n", y);
-
-  
-    ka = mod_exp(y, a, P);
-    kb = mod_exp(x, b, P); 
-
-   
-    printf("Shared secret key for Alice (ka = y^a mod P): %lld\n", ka);
-    printf("Shared secret key for Bob (kb = x^b mod P): %lld\n", kb);
-
-    if (ka == kb) {
-        printf("\nDiffie-Hellman Key Exchange successful. Both parties share the same key.\n");
-    } else {
-        printf("\nError: The keys for Alice and Bob do not match.\n");
+    // Calculate B = g^b mod p
+    for(i = 0; i < b; i++)
+    {
+        B = (B * g) % p;
     }
+
+    printf("Public value from A: %d\n", A);
+    printf("Public value from B: %d\n", B);
+
+    // Shared key for A
+    for(i = 0; i < a; i++)
+    {
+        keyA = (keyA * B) % p;
+    }
+    // Shared key for B
+    for(i = 0; i < b; i++)
+    {
+        keyB = (keyB * A) % p;
+    }
+
+    printf("Secret key computed by A: %d\n", keyA);
+    printf("Secret key computed by B: %d\n", keyB);
 
     return 0;
 }
-
 ```
 
 
 ## Output:
-![image](https://github.com/user-attachments/assets/fafe9731-db40-4d2f-9ae3-d17f0012e9c7)
-
-
-
-
+<img width="616" height="429" alt="image" src="https://github.com/user-attachments/assets/2dae3442-2775-4fd9-a2b6-4b5592bc61ae" /><br>
 ## Result:
   The program is executed successfully
 
